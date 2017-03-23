@@ -2552,7 +2552,7 @@
 			display: block;
 			background: #ffffff;
 			border-radius: 100%;
-			color: #312450;
+			color: #bcf6ff;
 			text-align: center;
 			line-height: 2.5em;
 			margin: 0 0 1.3em 0;
@@ -2563,27 +2563,27 @@
 			}
 
 				.wrapper.style1 .icon.major:before {
-					color: #5e42a6;
+					color: #FFE9BB;
 				}
 
 				.wrapper.style1-alt .icon.major:before {
-					color: #493382;
+					color: #FFCB5A;
 				}
 
 				.wrapper.style2 .icon.major:before {
-					color: #5052b5;
+					color: #C2D2FF;
 				}
 
 				.wrapper.style2-alt .icon.major:before {
-					color: #3e4094;
+					color: #6B90FD;
 				}
 
 				.wrapper.style3 .icon.major:before {
-					color: #b74e91;
+					color: #FFDBBB;
 				}
 
 				.wrapper.style3-alt .icon.major:before {
-					color: #953d75;
+					color: #FFA95A;
 				}
 
 /* Image */
