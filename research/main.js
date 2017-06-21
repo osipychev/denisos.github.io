@@ -15,7 +15,7 @@ var reward_hist = [];
 //-- Experiment globals
 var n_episode = 0;
 var cum_reward = 0;
-var hist = [];
+var hist = ['\n'];
 
 //MAIN
 function main() {
