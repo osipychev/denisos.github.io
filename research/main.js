@@ -69,6 +69,7 @@ function generate(){
     n_dim = document.getElementById("n_dim").value;
     myGrid = new UGrid2D([-1.,-1.],[1.,1.],n_dim);
     mdp_init(n_dim);
+    reward_hist = 0;
 }
 
 function singleUpdate(){
