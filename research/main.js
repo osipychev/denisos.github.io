@@ -15,7 +15,7 @@ var reward_hist = [];
 //-- Experiment globals
 var n_episode = 0;
 var cum_reward = 0;
-var hist = ['History\n'];
+var hist = [];
 
 //MAIN
 function main() {
@@ -70,6 +70,7 @@ function generate(){
     myGrid = new UGrid2D([-1.,-1.],[1.,1.],n_dim);
     mdp_init(n_dim);
     reward_hist = 0;
+    hist = [];
 }
 
 function singleUpdate(){

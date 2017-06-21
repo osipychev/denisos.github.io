@@ -115,9 +115,11 @@ function mdp_init_reward(n_states){
     reward[xi][yi] += 100;
     term_map[xi][yi] = true;
     
+    for (var i = 0; i < n_states*n_states/20;++i){
     [xi,yi] = mdp_random_state(n_states);
     reward[xi][yi] -= 100;
     term_map[xi][yi] = true;
+    }
 }
 
 function mdp_random_state(n_states){
