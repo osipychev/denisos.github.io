@@ -7,7 +7,7 @@ var canvas;
 var n_dim;
 var state = [0,0];
 var n_actions = 5;
-var sim_states = {reset:0,ready:4,run:5,manual:6};
+var sim_states = {reset:0,ready:4,run:5,wait:6};
 var sim_state = sim_states.reset;
 var mouse_pos = [];
 var reward_hist = [];
@@ -80,21 +80,18 @@ function singleUpdate(){
 function update(){
     
     if (sim_state == sim_states.reset){
+        sleep(10000);
         n_iter = 0;
         n_episode += 1;
         cum_reward = 0;
         state = mdp_random_state(n_dim);
-        
         sim_state = sim_states.ready;
     }
     
     var epsilon = document.getElementById("epsilon").value;
     var max_iter = document.getElementById("num_iter").value
     
-    // DRAW AND UPDATE
-    draw();
-    
-	if (n_iter < max_iter && (sim_state == sim_states.run) ){
+    if (n_iter < max_iter && (sim_state == sim_states.run) ){
 		
         var action=-1;
         
@@ -145,7 +142,11 @@ function update(){
             plot_result(reward_hist);
         }
         }
+     
+    
 	}
+       // DRAW AND UPDATE
+    draw();
 }
 
 function plot_result(reward_hist){
@@ -179,4 +180,14 @@ function draw(){
         myGrid.show_qvalues(canvas,qvalue,n_dim,n_actions);
     else if (document.getElementById("show_Pi").checked)
         myGrid.show_policy(canvas,qvalue,n_dim,n_actions);
+    myGrid.print_string(canvas,state,'reward: '+cum_reward,n_dim);
+}
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }
