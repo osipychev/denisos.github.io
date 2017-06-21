@@ -71,6 +71,7 @@ function generate(){
     mdp_init(n_dim);
     reward_hist = [];
     hist = ['\n'];
+    n_episode = 0;
 }
 
 function singleUpdate(){
