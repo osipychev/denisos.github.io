@@ -19,7 +19,7 @@ Developed by: 	  Denis Osipychev
         <script src="exporting.js"></script>
     </head>
     <body onload="main()">
-        <fieldset style="width: 500px">
+        <fieldset style="width: 600px">
             <form id="input_form">
                 <legend>MDP Grid World Simulation</legend><br>
                 <table>
@@ -29,28 +29,29 @@ Developed by: 	  Denis Osipychev
                         Transitions: Normal<input type="radio" name="func4" id="norm_trans" checked>, Crazy
                         <input type="radio" name="func4" id="rand_trans"><br>
 
-                        <b>Visualization:</b><br>
+                        <b>Visual.:</b>
                         <input type="radio" name="func1" id="show_R"> R
                         <input type="radio" name="func1" id="show_V" checked> V
                         <input type="radio" name="func1" id="show_Q"> Q
                         <input type="radio" name="func1" id="show_Pi"> &pi; <br>
                         
-                        <b>Show:</b><br>
+                        <b>Show:</b>
                         <input type="checkbox" name="func3" id="show_goal"> G
                         <input type="checkbox" name="func3" id="show_moves"> T
                         <input type="checkbox" name="func3" id="show_obst"> O
-                        <input type="checkbox" name="func3" id="show_labels"> L
-                    </td><td width="250">
+                        <input type="checkbox" name="func3" id="show_labels"> L <br>
                         <b>MDP parameters:</b><br>
-                        Number of iterations <input type="text" id="num_iter" value="1000" size="5"><br>
+                        Number of iterations <input type="text" id="num_iter" value="100" size="5"><br>
                         &alpha;<input type="text" id="alpha" value="0.9" size="3">&nbsp;
                         &gamma;<input type="text" id="gamma" value="0.9" size="3">&nbsp;
                         &epsilon;<input type="text" id="epsilon" value="0.95" size="3"><br><br>
 
-                        <b>Control:</b><br>
+                        <b>Control:</b>
                         <input type="radio" name="func2" id="ctrl_human" checked> Human
                         <input type="radio" name="func2" id="ctrl_RL"> RL<br><br>
-                    </td></tr>
+                    </td><td>
+                        <div id="container" style="min-width: 350px; height: 200px; max-width: 350px; margin: 0 auto"></div>
+	               </td></tr>
                 </table>
             </form>
             
@@ -67,6 +68,5 @@ Developed by: 	  Denis Osipychev
         <canvas id ="example" width ="500" height ="500" style="border:5px solid #FFFFFF;">
 			Please use a browser that supports "canvas"
 		</canvas >
-        <div id="container" style="min-width: 310px; height: 300px; max-width: 500px; margin: 0 auto"></div>
-	</body>
+    </body>
 </html>
