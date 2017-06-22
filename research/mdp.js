@@ -4,6 +4,7 @@ var value      = [];
 var qvalue     = [];
 var transition = [];
 var term_map = [];
+var sym_map = [];
 
 function mdp_init(n_states){
     mdp_init_transition(n_states);
@@ -25,24 +26,25 @@ function mdp_init(n_states){
         }
     }
     mdp_init_reward(n_states);
+    mdp_init_symbols(n_states);
 }
 
 function mdp_step(current_state,action,n_states){
     
     if (document.getElementById("norm_trans").checked){
+//        if (action == 0){
+//            current_state = current_state;
+//        }
         if (action == 0){
-            current_state = current_state;
-        }
-        if (action == 1){
             current_state[0] = Math.max(0,current_state[0]-1);
         }
-        if (action == 2){
+        if (action == 1){
             current_state[0] = Math.min(n_dim-1,current_state[0]+1);
         }
-        if (action == 3){
+        if (action == 2){
             current_state[1] = Math.max(0,current_state[1]-1);
         }
-        if (action == 4){
+        if (action == 3){
             current_state[1] = Math.min(n_dim-1,current_state[1]+1);
         }
     }
@@ -106,6 +108,21 @@ function mdp_init_transition(n_states){
             rand = Math.floor(Math.random() * n_states*n_states + 0);
             transition[i][j][rand] = 1.0;
         }
+    }
+}
+
+function mdp_init_symbols(n_states){
+    var alphabet = "♠♥♣♦☂☁☀★☎☘☙☾♚♞abcdefghjklmnopqrstu";
+   for (var i=0; i < n_states; ++i){
+       sym_map[i] = new Array(n_states);
+       for (var j=0; j < n_states; ++j){
+            sym_map[i][j] = ' ';
+        }
+    }
+    for (var i=0; i < n_states; ++i){
+        var s = mdp_random_state(n_states);
+        var symbol = alphabet[i];
+        sym_map[s[0]][s[1]] = symbol;
     }
 }
 

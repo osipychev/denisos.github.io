@@ -71,7 +71,7 @@ UGrid2D.prototype.draw_grid = function (canvas) {
 UGrid2D.prototype.print_string = function (canvas, state, string, dim) {
     var ctx = canvas.getContext('2d');
     // set fonts
-    ctx.font = "10px Arial";
+    ctx.font = "14px Arial";
     ctx.fillStyle = "black";
     deltaX = canvas.width / this.resolution;
     deltaY = canvas.height / this.resolution;
@@ -79,8 +79,22 @@ UGrid2D.prototype.print_string = function (canvas, state, string, dim) {
     var x = deltaX * state[0] + deltaX/2;
     var y = deltaY * state[1] + deltaY/2;
     ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.textBaseline = "top";
     ctx.fillText(string, x, y);
+}
+
+UGrid2D.prototype.print_message = function (canvas, string) {
+    var ctx = canvas.getContext('2d');
+    // set fonts
+    ctx.font = "32px Arial";
+    x = canvas.width / 2;
+    y = 0;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "red";
+    ctx.fillText(string, x, y);
+    ctx.strokeStyle = "black";
+    ctx.strokeText(string, x, y);
 }
 
 // Method: show_values
@@ -166,6 +180,27 @@ UGrid2D.prototype.show_qvalues = function (canvas, matrix, dim, dim3) {
     }
 }
 
+UGrid2D.prototype.show_symbols = function (canvas, matrix, dim) {
+    var ctx = canvas.getContext('2d');
+    // set fonts
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    deltaX = canvas.width / this.resolution;
+    deltaY = canvas.height / this.resolution;
+
+    // loop over all corners
+    for (var i = 0; i < this.resolution; i++) {
+        for (var j = 0; j < this.resolution; j++) {
+
+            var x = deltaX * i + deltaX/2;
+            var y = deltaY * j + deltaY/2;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
+            ctx.fillText(matrix[i][j], x, y);
+        }
+    }
+}
+
 UGrid2D.prototype.show_policy = function (canvas, matrix, dim) {
     var ctx = canvas.getContext('2d');
     // set fonts
@@ -186,10 +221,10 @@ UGrid2D.prototype.show_policy = function (canvas, matrix, dim) {
             var val = matrix[i][j];
             
             var act = findMaxInd(val);
-            if (act == 1) ctx.fillText("←", x, y);
-            else if (act == 2) ctx.fillText("→", x, y);
-            else if (act == 3) ctx.fillText("↑", x, y);
-            else if (act == 4) ctx.fillText("↓", x, y);
+            if (act == 0) ctx.fillText("←", x, y);
+            else if (act == 1) ctx.fillText("→", x, y);
+            else if (act == 2) ctx.fillText("↑", x, y);
+            else if (act == 3) ctx.fillText("↓", x, y);
             else ctx.fillText("o", x, y);
             
         }

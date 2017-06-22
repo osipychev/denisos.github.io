@@ -6,11 +6,12 @@ var myGrid;
 var canvas;
 var n_dim;
 var state = [0,0];
-var n_actions = 5;
+var n_actions = 4;
 var sim_states = {reset:0,ready:4,run:5,wait:6};
 var sim_state = sim_states.reset;
 var mouse_pos = [];
 var reward_hist = [];
+var message = [];
 
 //-- Experiment globals
 var n_episode = 0;
@@ -28,12 +29,12 @@ function main() {
 	    console.log(' Got < canvas > element ');
     }
     
-    canvas.addEventListener("mousedown", function(evt){
-        var rect = canvas.getBoundingClientRect();
-        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
-        selection(mouse_pos);
-        console.log("Mouse click at:", mouse_pos);
-    }, false);
+//    canvas.addEventListener("mousedown", function(evt){
+//        var rect = canvas.getBoundingClientRect();
+//        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
+//        selection(mouse_pos);
+//        console.log("Mouse click at:", mouse_pos);
+//    }, false);
     
     document.onkeydown = handleKeyDown;
     document.onkeyup = handleKeyUp;
@@ -58,6 +59,7 @@ function save_to_file(){
 //CONTROL
 function sim_run(){
     sim_state = sim_states.run;
+    message = [];
 }
 
 function sim_stop(){
@@ -83,12 +85,16 @@ function singleUpdate(){
 function update(){
     
     if (sim_state == sim_states.reset){
+        
         sleep(10000);
         n_iter = 0;
         n_episode += 1;
         cum_reward = 0;
         state = mdp_random_state(n_dim);
         sim_state = sim_states.ready;
+        if (n_episode>20) message ="Reached 20 episodes. Save and proceed."
+        else message = "Episode ended. Press RUN";
+        
     }
     
     var epsilon = document.getElementById("epsilon").value;
@@ -104,26 +110,26 @@ function update(){
                 console.log("best action");
             }
             else{
-                action = Math.floor(Math.random() * 5);
+                action = Math.floor(Math.random() * n_actions);
                 console.log("random action");
             }
         }
         else if(document.getElementById("ctrl_human").checked){
             handleKeys();
             if (keyEvents.active.left){
-                action = 1;
+                action = 0;
                 keyEvents.active.left = false;
             }
             else if (keyEvents.active.right){
-                action = 2;
+                action = 1;
                 keyEvents.active.right = false;
             }  
             else if (keyEvents.active.up){
-                action = 3;
+                action = 2;
                 keyEvents.active.up = false;
             }
             else if (keyEvents.active.down){
-                action = 4;
+                action = 3;
                 keyEvents.active.down = false;
             } 
         }
@@ -136,18 +142,18 @@ function update(){
             var rwrd = reward[state[0]][state[1]];
             update_qvalue(prev_state,state,action,rwrd);
         
-        cum_reward += rwrd;
-        if (term_map[state[0]][state[1]] == true){
-            sim_state = sim_states.reset;
-            hist += 'Num iter: ' + n_iter + ' Cum reward: ' + cum_reward + '\n';
-            reward_hist.push({x:n_episode,y:cum_reward});
-            console.log(reward_hist);
-            plot_result(reward_hist);
+            cum_reward += rwrd;
+            if (term_map[state[0]][state[1]] == true){
+                sim_state = sim_states.reset;
+                hist += 'Num iter: ' + n_iter + ' Cum reward: ' + cum_reward + '\n';
+                reward_hist.push({x:n_episode,y:cum_reward});
+                console.log(reward_hist);
+                plot_result(reward_hist);
+                if (rwrd>0) message = 'You found the goal';
+                else message = 'You found the pit';
+            }
         }
-        }
-     
-    
-	}
+    }
        // DRAW AND UPDATE
     draw();
 }
@@ -159,7 +165,7 @@ function plot_result(reward_hist){
                      xAxis: {title: {enabled: true,text: 'Episode'},
                         startOnTick: true,endOnTick: true,showLastLabel: true},
                      yAxis: {title: {text: 'Cumulative Reward'}},
-                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 100,y: 70,floating: true,
+                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 50,y: 25,floating: true,
                         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',borderWidth: 1},
                      plotOptions: {scatter: {marker: {radius: 5,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},
                      states: {hover: {marker: {enabled: false}}},
@@ -184,6 +190,10 @@ function draw(){
     else if (document.getElementById("show_Pi").checked)
         myGrid.show_policy(canvas,qvalue,n_dim,n_actions);
     myGrid.print_string(canvas,state,'reward: '+cum_reward,n_dim);
+    myGrid.print_message(canvas,message);
+    
+    if (document.getElementById("show_labels").checked)
+        myGrid.show_symbols(canvas,sym_map,n_dim);
 }
 
 function sleep(milliseconds) {
