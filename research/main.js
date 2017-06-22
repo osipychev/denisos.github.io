@@ -7,15 +7,16 @@ var canvas;
 var n_dim;
 var state = [0,0];
 var n_actions = 5;
-var sim_states = {reset:0,ready:4,run:5,manual:6};
+var sim_states = {reset:0,ready:4,run:5,wait:6};
 var sim_state = sim_states.reset;
 var mouse_pos = [];
 var reward_hist = [];
+var message = [];
 
 //-- Experiment globals
 var n_episode = 0;
 var cum_reward = 0;
-var hist = ['History\n'];
+var hist = ['\n'];
 
 //MAIN
 function main() {
@@ -28,12 +29,12 @@ function main() {
 	    console.log(' Got < canvas > element ');
     }
     
-    canvas.addEventListener("mousedown", function(evt){
-        var rect = canvas.getBoundingClientRect();
-        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
-        selection(mouse_pos);
-        console.log("Mouse click at:", mouse_pos);
-    }, false);
+//    canvas.addEventListener("mousedown", function(evt){
+//        var rect = canvas.getBoundingClientRect();
+//        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
+//        selection(mouse_pos);
+//        console.log("Mouse click at:", mouse_pos);
+//    }, false);
     
     document.onkeydown = handleKeyDown;
     document.onkeyup = handleKeyUp;
@@ -58,6 +59,7 @@ function save_to_file(){
 //CONTROL
 function sim_run(){
     sim_state = sim_states.run;
+    message = [];
 }
 
 function sim_stop(){
@@ -69,6 +71,9 @@ function generate(){
     n_dim = document.getElementById("n_dim").value;
     myGrid = new UGrid2D([-1.,-1.],[1.,1.],n_dim);
     mdp_init(n_dim);
+    reward_hist = [];
+    hist = ['\n'];
+    n_episode = 0;
 }
 
 function singleUpdate(){
@@ -80,21 +85,20 @@ function singleUpdate(){
 function update(){
     
     if (sim_state == sim_states.reset){
+        
+        sleep(10000);
         n_iter = 0;
         n_episode += 1;
         cum_reward = 0;
         state = mdp_random_state(n_dim);
-        
         sim_state = sim_states.ready;
+        message = "Episode ended. Press RUN";
     }
     
     var epsilon = document.getElementById("epsilon").value;
     var max_iter = document.getElementById("num_iter").value
     
-    // DRAW AND UPDATE
-    draw();
-    
-	if (n_iter < max_iter && (sim_state == sim_states.run) ){
+    if (n_iter < max_iter && (sim_state == sim_states.run) ){
 		
         var action=-1;
         
@@ -136,16 +140,20 @@ function update(){
             var rwrd = reward[state[0]][state[1]];
             update_qvalue(prev_state,state,action,rwrd);
         
-        cum_reward += rwrd;
-        if (term_map[state[0]][state[1]] == true){
-            sim_state = sim_states.reset;
-            hist += 'Num iter: ' + n_iter + ' Cum reward: ' + cum_reward + '\n';
-            reward_hist.push({x:n_episode,y:cum_reward});
-            console.log(reward_hist);
-            plot_result(reward_hist);
+            cum_reward += rwrd;
+            if (term_map[state[0]][state[1]] == true){
+                sim_state = sim_states.reset;
+                hist += 'Num iter: ' + n_iter + ' Cum reward: ' + cum_reward + '\n';
+                reward_hist.push({x:n_episode,y:cum_reward});
+                console.log(reward_hist);
+                plot_result(reward_hist);
+                if (rwrd>0) message = 'You found the goal';
+                else message = 'You found the pit';
+            }
         }
-        }
-	}
+    }
+       // DRAW AND UPDATE
+    draw();
 }
 
 function plot_result(reward_hist){
@@ -155,7 +163,7 @@ function plot_result(reward_hist){
                      xAxis: {title: {enabled: true,text: 'Episode'},
                         startOnTick: true,endOnTick: true,showLastLabel: true},
                      yAxis: {title: {text: 'Cumulative Reward'}},
-                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 100,y: 70,floating: true,
+                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 50,y: 25,floating: true,
                         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',borderWidth: 1},
                      plotOptions: {scatter: {marker: {radius: 5,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},
                      states: {hover: {marker: {enabled: false}}},
@@ -179,4 +187,15 @@ function draw(){
         myGrid.show_qvalues(canvas,qvalue,n_dim,n_actions);
     else if (document.getElementById("show_Pi").checked)
         myGrid.show_policy(canvas,qvalue,n_dim,n_actions);
+    myGrid.print_string(canvas,state,'reward: '+cum_reward,n_dim);
+    myGrid.print_message(canvas,message);
+}
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }

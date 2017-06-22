@@ -103,7 +103,7 @@ function mdp_init_transition(n_states){
     
     for (var i=0; i < n_actions; ++i){
         for (var j=0; j < n_states*n_states; ++j){
-            rand = Math.floor((Math.random() * (n_states*n_states - 1)) + 0);
+            rand = Math.floor(Math.random() * n_states*n_states + 0);
             transition[i][j][rand] = 1.0;
         }
     }
@@ -115,17 +115,19 @@ function mdp_init_reward(n_states){
     reward[xi][yi] += 100;
     term_map[xi][yi] = true;
     
+    for (var i = 0; i < n_states*n_states/20;++i){
     [xi,yi] = mdp_random_state(n_states);
     reward[xi][yi] -= 100;
     term_map[xi][yi] = true;
+    }
 }
 
 function mdp_random_state(n_states){
     var all_clr = false;
     
     while (!all_clr){
-        var rand1 = Math.floor((Math.random() * (n_states - 1)) + 0);
-        var rand2 = Math.floor((Math.random() * (n_states - 1)) + 0);
+        var rand1 = Math.floor(Math.random() * n_states );
+        var rand2 = Math.floor(Math.random() * n_states );
         if (term_map[rand1][rand2] == false ) all_clr = true;
         s = [rand1, rand2];
     }

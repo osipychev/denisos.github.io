@@ -68,6 +68,38 @@ UGrid2D.prototype.draw_grid = function (canvas) {
 // Method: show_values
 // Show values on the grid corresponding it its corner
 
+UGrid2D.prototype.print_string = function (canvas, state, string, dim) {
+    var ctx = canvas.getContext('2d');
+    // set fonts
+    ctx.font = "14px Arial";
+    ctx.fillStyle = "black";
+    deltaX = canvas.width / this.resolution;
+    deltaY = canvas.height / this.resolution;
+
+    var x = deltaX * state[0] + deltaX/2;
+    var y = deltaY * state[1] + deltaY/2;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillText(string, x, y);
+}
+
+UGrid2D.prototype.print_message = function (canvas, string) {
+    var ctx = canvas.getContext('2d');
+    // set fonts
+    ctx.font = "32px Arial";
+    x = canvas.width / 2;
+    y = 0;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "red";
+    ctx.fillText(string, x, y);
+    ctx.strokeStyle = "black";
+    ctx.strokeText(string, x, y);
+}
+
+// Method: show_values
+// Show values on the grid corresponding it its corner
+
 UGrid2D.prototype.show_values = function (canvas, matrix, dim) {
     var ctx = canvas.getContext('2d');
     // set fonts
