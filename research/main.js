@@ -92,7 +92,9 @@ function update(){
         cum_reward = 0;
         state = mdp_random_state(n_dim);
         sim_state = sim_states.ready;
-        message = "Episode ended. Press RUN";
+        if (n_episode>20) message ="Reached 20 episodes. Save and proceed."
+        else message = "Episode ended. Press RUN";
+        
     }
     
     var epsilon = document.getElementById("epsilon").value;
