@@ -6,7 +6,7 @@ var myGrid;
 var canvas;
 var n_dim;
 var state = [0,0];
-var n_actions = 5;
+var n_actions = 4;
 var sim_states = {reset:0,ready:4,run:5,wait:6};
 var sim_state = sim_states.reset;
 var mouse_pos = [];
@@ -110,26 +110,26 @@ function update(){
                 console.log("best action");
             }
             else{
-                action = Math.floor(Math.random() * 5);
+                action = Math.floor(Math.random() * n_actions);
                 console.log("random action");
             }
         }
         else if(document.getElementById("ctrl_human").checked){
             handleKeys();
             if (keyEvents.active.left){
-                action = 1;
+                action = 0;
                 keyEvents.active.left = false;
             }
             else if (keyEvents.active.right){
-                action = 2;
+                action = 1;
                 keyEvents.active.right = false;
             }  
             else if (keyEvents.active.up){
-                action = 3;
+                action = 2;
                 keyEvents.active.up = false;
             }
             else if (keyEvents.active.down){
-                action = 4;
+                action = 3;
                 keyEvents.active.down = false;
             } 
         }
@@ -191,6 +191,9 @@ function draw(){
         myGrid.show_policy(canvas,qvalue,n_dim,n_actions);
     myGrid.print_string(canvas,state,'reward: '+cum_reward,n_dim);
     myGrid.print_message(canvas,message);
+    
+    if (document.getElementById("show_labels").checked)
+        myGrid.show_symbols(canvas,sym_map,n_dim);
 }
 
 function sleep(milliseconds) {

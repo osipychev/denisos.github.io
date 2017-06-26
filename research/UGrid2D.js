@@ -140,7 +140,7 @@ UGrid2D.prototype.show_qvalues = function (canvas, matrix, dim, dim3) {
             var y = deltaY * j;
             ctx.textAlign = "center";
             ctx.textBaseline = "top";
-            var val = matrix[i][j][3];
+            var val = matrix[i][j][2];
             val = Math.round(val * 100) / 100;
             ctx.fillText(val, x, y);
             
@@ -148,7 +148,7 @@ UGrid2D.prototype.show_qvalues = function (canvas, matrix, dim, dim3) {
             var y = deltaY * j + deltaY;
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
-            var val = matrix[i][j][4];
+            var val = matrix[i][j][3];
             val = Math.round(val * 100) / 100;
             ctx.fillText(val, x, y);
         
@@ -156,7 +156,7 @@ UGrid2D.prototype.show_qvalues = function (canvas, matrix, dim, dim3) {
             var y = deltaY * j + deltaY/2;
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
-            var val = matrix[i][j][1];
+            var val = matrix[i][j][0];
             val = Math.round(val * 100) / 100;
             ctx.fillText(val, x, y);
         
@@ -164,18 +164,39 @@ UGrid2D.prototype.show_qvalues = function (canvas, matrix, dim, dim3) {
             var y = deltaY * j + deltaY/2;
             ctx.textAlign = "right";
             ctx.textBaseline = "middle";
-            var val = matrix[i][j][2];
+            var val = matrix[i][j][1];
             val = Math.round(val * 100) / 100;
             ctx.fillText(val, x, y);
             
+//            var x = deltaX * i + deltaX/2;
+//            var y = deltaY * j + deltaY/2;
+//            ctx.textAlign = "center";
+//            ctx.textBaseline = "top";
+//            var val = matrix[i][j][0];
+//            val = Math.round(val * 100) / 100;
+//            ctx.fillText(val, x, y);
+            
+        }
+    }
+}
+
+UGrid2D.prototype.show_symbols = function (canvas, matrix, dim) {
+    var ctx = canvas.getContext('2d');
+    // set fonts
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    deltaX = canvas.width / this.resolution;
+    deltaY = canvas.height / this.resolution;
+
+    // loop over all corners
+    for (var i = 0; i < this.resolution; i++) {
+        for (var j = 0; j < this.resolution; j++) {
+
             var x = deltaX * i + deltaX/2;
             var y = deltaY * j + deltaY/2;
             ctx.textAlign = "center";
-            ctx.textBaseline = "top";
-            var val = matrix[i][j][0];
-            val = Math.round(val * 100) / 100;
-            ctx.fillText(val, x, y);
-            
+            ctx.textBaseline = "bottom";
+            ctx.fillText(matrix[i][j], x, y);
         }
     }
 }
@@ -200,11 +221,14 @@ UGrid2D.prototype.show_policy = function (canvas, matrix, dim) {
             var val = matrix[i][j];
             
             var act = findMaxInd(val);
-            if (act == 1) ctx.fillText("←", x, y);
-            else if (act == 2) ctx.fillText("→", x, y);
-            else if (act == 3) ctx.fillText("↑", x, y);
-            else if (act == 4) ctx.fillText("↓", x, y);
+            if (val[act] == 0.0) ctx.fillText("o", x, y);
+            else if (act == 0) ctx.fillText("←", x, y);
+            else if (act == 1) ctx.fillText("→", x, y);
+            else if (act == 2) ctx.fillText("↑", x, y);
+            else if (act == 3) ctx.fillText("↓", x, y);
             else ctx.fillText("o", x, y);
+            
+            
             
         }
     }
