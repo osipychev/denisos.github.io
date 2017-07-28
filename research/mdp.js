@@ -37,6 +37,16 @@ function mdp_step(current_state,action,n_states){
 //        }
         if (action == 0){
             current_state[0] = Math.max(0,current_state[0]-1);
+<<<<<<< HEAD
+        }
+        if (action == 1){
+            current_state[0] = Math.min(n_dim-1,current_state[0]+1);
+        }
+        if (action == 2){
+            current_state[1] = Math.max(0,current_state[1]-1);
+        }
+        if (action == 3){
+=======
         }
         if (action == 1){
             current_state[0] = Math.min(n_dim-1,current_state[0]+1);
@@ -48,7 +58,27 @@ function mdp_step(current_state,action,n_states){
             current_state[1] = Math.min(n_dim-1,current_state[1]+1);
         }
     }
-    if (document.getElementById("rand_trans").checked){
+    else if (document.getElementById("semi_trans").checked){
+//        if (action == 0){
+//            current_state = current_state;
+//        }
+        if (action == 0){
+            current_state[0] = Math.min(n_dim-1,current_state[0]+1);
+>>>>>>> f5c2dab70201c7c7b346a2d93bf1f3d4dc368c8b
+            current_state[1] = Math.min(n_dim-1,current_state[1]+1);
+        }
+        if (action == 1){
+            current_state[0] = Math.max(0,current_state[0]-1);
+            current_state[1] = Math.min(n_dim-1,current_state[1]+1);
+        }
+        if (action == 2){
+            current_state[1] = Math.max(0,current_state[1]-2);
+        }
+        if (action == 3){
+            current_state[1] = Math.max(0,current_state[1]-1);
+        }
+    }
+    else if (document.getElementById("rand_trans").checked){
         current_state_1D = current_state[0] + current_state[1]*(n_states);
         new_state = get_transition(current_state_1D, action, n_states);
     
