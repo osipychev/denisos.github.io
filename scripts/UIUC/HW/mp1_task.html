@@ -1,0 +1,76 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h1 class="title" style="font-size: 1.6em; margin: 0px auto; line-height: 1.2em; font-family: Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">MP1: Victory Dance</h1>
+
+<div class="content-middle" style="font-family: Arial, Helvetica, sans-serif; font-size: 13.4399995803833px; line-height: 20.1599998474121px; background-color: rgb(255, 255, 255);">
+<div class="node" style="margin: 0.5em 0px 1em; padding-bottom: 1em; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(187, 187, 187); clear: both;">
+<p><strong>Due: 11:55pm &nbsp;Feb. 10, 2017.</strong></p>
+<img alt="Illinois Victory Badge" src="http://courses.engr.illinois.edu/cs418/MP/badge.png" style="border-style:solid; border-width:1px; float:left; font-size:13.44px; height:200px; line-height:20.16px; width:200px" />
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><br />
+<br />
+<br />
+<br />
+<span style="font-family:arial,helvetica,sans-serif">For your&nbsp;first&nbsp;Machine Problem, you will create a 2-D animation of a dancing Illinois Victory Badge (as shown above). To complete the MP, you&nbsp;will need to create a digital model of the badge, write code to render it,&nbsp;and write code to&nbsp;animate it.</span></p>
+
+<h2><br />
+<span style="font-family:arial,helvetica,sans-serif"><span style="font-size:20px"><strong>Modeling</strong></span></span></h2>
+
+<p><span style="font-family:arial,helvetica,sans-serif">You will need to&nbsp;model&nbsp;the badge with a 2-D mesh of triangles. You can use more than one mesh; you could create a mesh for the blue part and then separate meshes for the orange bars. Or you could do something different...it just has to look like the badge.&nbsp;The mesh(es)&nbsp;must not contain any &quot;T&quot; intersections, which means that there must be a vertex located at any junction in the mesh. You can also model a background, or just use a solid background color. One approach to creating the mesh would be to get some graph paper, draw the badge and figure out a set of coordinates for the vertices and edges for the triangles that works. Once you have the coordinates and triangles, just write up a set of JavaScript arrays in your code containing those numbers.&nbsp;</span></p>
+
+<h2><span style="font-family:arial,helvetica,sans-serif">Rendering</span></h2>
+
+<p><span style="font-family:arial,helvetica,sans-serif">You should&nbsp;color the badge&nbsp;and the background as shown above. For this MP, you can render using the gl.drawArrays call, with the primitives specified as gl.TRIANGLES. Note that&nbsp;this will d<span style="color:rgb(42, 42, 42); font-size:13px; line-height:18px">raw&nbsp;a triangle for each group of three consecutive vertices. For example, 12 vertices create 4 separate triangles. This means that the coordinates of vertices shared by multiple triangles will be repeated in the buffer. If you wish, you can use a different implementation (it just has to work), but the one suggested here is probably the simplest.</span></span></p>
+
+<h2><span style="font-family:arial,helvetica,sans-serif">Animation</span></h2>
+
+<p><span style="font-family:arial,helvetica,sans-serif">You will need to write a program to change the location of vertices over time to animate your&nbsp;model. Your code should use two different methods for changing the vertices:</span></p>
+
+<ol>
+	<li><span style="font-family:arial,helvetica,sans-serif">Use affine transformations (such as scaling, rotation, or translation). These should be implemented as matrix transformations (you can use the <a href="http://glmatrix.net/">glMatrix library</a>).</span></li>
+	<li><span style="font-family:arial,helvetica,sans-serif">Use a motion that cannot be implemented as a single&nbsp;affine transformation applied uniformly to all the geometry. We want to see an obviously non-uniform motion.&nbsp;For example,&nbsp;have the orange rectangles wiggle like snakes. For this, you will need to directly change the vertex data in a vertex buffer object.&nbsp;This&nbsp;part of the animation could&nbsp;be data driven using a table of pre-defined vertex positions for the motion. The motion can also be keyframed, so the vertices are interpolated from one keyframe location to a second keyframe location. Linear interpolation is fine for this assignment, but other interpolations, such as an s-curve, will ease the figure in and out of each keyframe. As an example of the kind of motion you might consider, imagine&nbsp;<span style="background-color:rgb(255, 255, 255); font-size:13.44px; line-height:20.16px">using various combination of sine waves to generate the dancing motion. If you&nbsp;modify the vertex positions by changing the coordinates in the buffer, make sure you use gl.DYNAMIC_DRAW.&nbsp;</span></span></li>
+</ol>
+
+<h2 style="font-family: Arial, Helvetica, sans-serif; line-height: 20.1599998474121px; background-color: rgb(255, 255, 255);"><span style="font-family:arial,helvetica,sans-serif">Submission</span></h2>
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 13.4399995803833px; line-height: 20.1599998474121px; background-color: rgb(255, 255, 255);"><span style="font-family:arial,helvetica,sans-serif">You will need to submit the following file in a zip archive via Compass:</span></p>
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 13.4399995803833px; line-height: 20.1599998474121px; background-color: rgb(255, 255, 255);"><span style="font-family:arial,helvetica,sans-serif">mp1.html<br />
+mp1.js<br />
+<br />
+All of your original code should be in those 2 files. You should also include any additional files you use. In particular you can use gl-matrix and the WebGL utilities used in the examples in class:</span></p>
+
+<ul>
+	<li><span style="font-family:arial,helvetica,sans-serif">Utility code:&nbsp;<a href="http://courses.engr.illinois.edu/cs418/webgl-utils.js">webgl-utils.js</a></span></li>
+	<li><span style="font-family:arial,helvetica,sans-serif">glMatrix library:&nbsp;<a href="http://courses.engr.illinois.edu/cs418/gl-matrix-min.js">gl-matrix-min.js</a></span></li>
+</ul>
+
+<h2><span style="font-family:arial,helvetica,sans-serif">Grading</span></h2>
+
+<p><span style="font-family:arial,helvetica,sans-serif">The assignment will be graded based on the following scale:</span></p>
+
+<ul style="margin: 0.5em 0px 1em; padding: 0px;">
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">50% Program&nbsp;runs without crashing, sucessfully creating a&nbsp;WebGL context and rendering multiple frames.</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">10% Code is well documented, with comments for each function explaning what that function does.</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">10% Badge model looks substantially like the provided&nbsp;image.</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">10% Badge model is a set of triangle meshes&nbsp;and the meshes have&nbsp;no t-junctions.</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">10% Affine transformations used in animation.</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;"><span style="font-family:arial,helvetica,sans-serif">10% Animation includes some component that does not use a uniform&nbsp;affine transformation</span></li>
+	<li style="margin: 0.15em 0px 0.15em 0.5em; padding: 0px 0px 0.2em 1.5em; list-style-type: none; list-style-image: none; background: url(http://graphics.cs.illinois.edu/sites/graphics.cs.illinois.edu/themes/danland/images/menu-leaf.gif) 1px 0.35em no-repeat transparent;">
+	<p><span style="font-family:arial,helvetica,sans-serif"><strong>Name your submission as ${NetID}_MP1.zip and submit it to Compass.&nbsp;</strong>This MP (as are the other MP&#39;s) is more than just an assignment for a grade to verify graphics programming proficiency. It is also an opportunity to impress me, your friends/family and your future employer or graduate school. These assignments are designed to provide the student with a portfolio of graphics programs and associated images and animations that can be used to demonstrate graphics expertise. Many students ask me to write letters of recommendation for jobs or grad school and I base these recommendations on their MP results. Use this MP as a chance to show off your graphics skills and make a strong impression.</span></p>
+	</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

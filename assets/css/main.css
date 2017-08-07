@@ -1639,7 +1639,7 @@
 /* Type */
 
 	body, input, select, textarea {
-		color: rgba(255, 255, 255, 0.55);
+		color: rgba(0, 0, 0, 0.55);
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 16.5pt;
 		font-weight: normal;
@@ -1699,7 +1699,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: #000000;
 		font-weight: bold;
 		line-height: 1.5;
 		margin: 0 0 0.5em 0;
@@ -2550,7 +2550,7 @@
 			width: 2.5em;
 			height: 2.5em;
 			display: block;
-			background: #ffffff;
+			background: #555555;
 			border-radius: 100%;
 			color: #bcf6ff;
 			text-align: center;
@@ -3253,27 +3253,27 @@
 		}
 
 		.wrapper.style1 {
-			background-color: #5e42a6;
+			background-color: #E0F8F7;
 		}
 
 		.wrapper.style1-alt {
-			background-color: #493382;
+			background-color: #CEECF5;
 		}
 
 		.wrapper.style2 {
-			background-color: #5052b5;
+			background-color: #E0F8E0;
 		}
 
 		.wrapper.style2-alt {
-			background-color: #3e4094;
+			background-color: #CEF6CE;
 		}
 
 		.wrapper.style3 {
-			background-color: #b74e91;
+			background-color: #F5F6CE;
 		}
 
 		.wrapper.style3-alt {
-			background-color: #953d75;
+			background-color: #F2F5A9;
 		}
 
 		.wrapper.fullscreen {
