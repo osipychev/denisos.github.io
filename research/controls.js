@@ -1,5 +1,10 @@
 // Create keyboard control variables
 var keyEvents = {};
+
+keyEvents.selection = {agent:1, state:2};
+keyEvents.status = keyEvents.selection.agent;
+keyEvents.agSel = -1;
+
 keyEvents.esc = 27;
 keyEvents.space = 32;
 keyEvents.left = 37;
@@ -8,9 +13,11 @@ keyEvents.up = 38;
 keyEvents.down = 40;
 keyEvents.released = {space:true,left:true,right:true,up:true,down:true};
 keyEvents.active = {esc:false,space:false,left:false,right:false,up:false,down:false};
+width = 600;
+height = 600;
 
 // MOUSE CONTROL
-function selection(xy_pos){
+function selection(xy_pos,n_dim){
     
     var deltaX = width / n_dim;
     var deltaY = height / n_dim;
@@ -18,11 +25,34 @@ function selection(xy_pos){
     var xi = Math.floor(xy_pos[0]/deltaX);
     var yi = Math.floor(xy_pos[1]/deltaY);
     
-    if (sim_state == sim_states.goal_sel){
-        reward[xi][yi] += 100;
-        term_map[xi][yi] = true;}
-    else if (sim_state == sim_states.obst_sel) reward[xi][yi] -= 10;
-    else if (sim_state == sim_states.init_sel) state = [xi,yi];
+    if (sim_state == sim_states.manual){
+     
+        if (keyEvents.status == keyEvents.selection.agent){
+            keyEvents.agSel = -1;
+            message = "select an agent";
+
+            for (var i = 0; i < n_agents; ++i){
+                var xy = agent_list[i].getState();
+                if (xy[0] <= xi+1 &&
+                    xy[0] >= xi-1 &&
+                    xy[1] <= yi+1 &&
+                    xy[1] >= yi-1){
+                    keyEvents.agSel = i;
+                    console.log('Agent #'+ agent_list[i].id +' selected');
+                    keyEvents.status = keyEvents.selection.state;
+                }
+            }
+        }
+        else if (keyEvents.status == keyEvents.selection.state){
+            if (keyEvents.agSel != -1){
+            message = "select a location";
+            agent_list[keyEvents.agSel].selState([xi,yi]);
+            sim_state = sim_states.ready;
+            message = [];
+            keyEvents.status = keyEvents.selection.agent;
+            }
+        }
+    }
 }
 
 //-------------KEYS CONTROL ---------------------------------------------------
@@ -84,5 +114,4 @@ function handleKeys() {
         }
     }
     else keyEvents.released.down = true;
-    
 }

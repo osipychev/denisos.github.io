@@ -10,49 +10,60 @@ Developed by: 	  Denis Osipychev
 -->
     <head>
         <meta charset="utf-8">
-        <title>MDP Grid World Simulation</title>
-        <script src="UGrid2D.js"></script>
+        <title>Weed World Simulation</title>
+        <script src="farm.js"></script>
         <script src="main.js"></script>
         <script src="mdp.js"></script>
         <script src="controls.js"></script>
         <script src="highcharts.js"></script>
         <script src="exporting.js"></script>
+        <script src="agent.js"></script>
     </head>
     <body onload="main()">
         <fieldset style="width: 600px">
             <form id="input_form">
                 <table>
                     <tr><td width="250">
-                        <b>Grid World parameters:</b><br>
-                        Dimension of Grid World: <input type="text" id="n_dim" value="5" size="2"><br>
-                        Transitions: <br>
-                        <input type="radio" name="func4" id="norm_trans" checked>Normal, 
-                        <input type="radio" name="func4" id="semi_trans">SCrazy,
-                        <input type="radio" name="func4" id="rand_trans">Crazy <br>
-
-                        <b>Visual.:</b><br>
-                        <input type="radio" name="func1" id="show_R"> R
-                        <!--<input type="radio" name="func1" id="show_V"> V-->
-                        <input type="radio" name="func1" id="show_Q"> Q
-                        <input type="radio" name="func1" id="show_Pi"> &pi;
-                        <!--<br>
+                        <b>Weed World parameters:</b><br>
+                        Rows per acre: <input type="text" id="n_dim" value="85" size="2">
+                        N agents: <input type="text" id="n_agents" value="1" size="1"><br>
                         
-                        <b>Show:</b>-->
-                        <input type="radio" name="func1" id="show_goal"> G
+                        <b>Visual.:</b><br>
+                        <!--<input type="radio" name="func1" id="show_R"> R-->
+                        <!--<input type="radio" name="func1" id="show_V"> V-->
+                        <!--<input type="radio" name="func1" id="show_Q"> Q-->
+                        <!--<input type="radio" name="func1" id="show_Pi"> &pi;-->
+                        <!--<br> -->
+                        
+                        <!-- <b>Show:</b>-->
+                        <input type="radio" name="func1" id="show_weed"checked> W
                         <!--<input type="checkbox" name="func3" id="show_moves"> T-->
                         <!--<input type="checkbox" name="func3" id="show_obst"> O-->
-                        <input type="radio" name="func1" id="show_labels"> L
-                        <input type="radio" name="func1" id="none"> none
+                        <!--<input type="radio" name="func1" id="show_labels"> L-->
+                        <!--<input type="radio" name="func1" id="none"> none-->
                         <br>
+<!--
                         <b>MDP parameters:</b><br>
                         Number of iterations <input type="text" id="num_iter" value="1000" size="5"><br>
-                        &alpha;<input type="text" id="alpha" value="0.9" size="3">&nbsp;
-                        &gamma;<input type="text" id="gamma" value="0.9" size="3">&nbsp;
-                        &epsilon;<input type="text" id="epsilon" value="0.95" size="3"><br>
-
+                        &alpha;<input type="text" id="alpha" value="0.9" size="4">&nbsp;
+                        &gamma;<input type="text" id="gamma" value="0.9" size="4">&nbsp;
+                        &epsilon;<input type="text" id="epsilon" value="0.95" size="4">
+                        <br>
+-->
+                        
+                        <b> Weed Growth Distribution: </b><br>
+                        <input type="radio" name="func2" id="uniform"checked> Uniform
+                        <input type="radio" name="func2" id="stardard_normal"> Standard Normal <br>
+                        <input type="radio" name="func2" id="brownian_motion"> Brownian Motion
+                        <br>
+                        <input type="range" id="tscale" min="1" max="100" value=1>
+<!--
                         <b>Control:</b>
-                        <input type="radio" name="func2" id="ctrl_human" checked> Human
-                        <input type="radio" name="func2" id="ctrl_RL"> RL<br>
+                        <input type="radio" name="func3" id="ctrl_human"checked> Human
+                        <input type="radio" name="func3" id="ctrl_RL"> RL<br>
+                        <input type="text" id="time_mult" value="1.0" size="3"> T_mult
+                        <br>
+-->
                     </td><td>
                         <div id="container" style="min-width: 350px; height: 200px; max-width: 350px; margin: 0 auto"></div>
 	               </td></tr>
@@ -61,16 +72,17 @@ Developed by: 	  Denis Osipychev
             
             <button onclick="generate()">Reset</button>
             <!-- &#8594;-->
-            <button onclick="singleUpdate()">Update</button>
+            <!--<button onclick="singleUpdate()">Update</button>-->
             <!-- &#8594;-->
             <button onclick="sim_run()">Run</button>
             <!-- &#8594;-->
             <button onclick="sim_stop()">Stop</button>
             <!-- &#8594;-->
-            <button onclick="save_to_file()">Save</button>
+            <button onclick="manual()">Manual</button>
         </fieldset>
         <canvas id ="example" width ="600" height ="600" style="border:5px solid #FFFFFF;">
 			Please use a browser that supports "canvas"
-		</canvas >
+		</canvas ><img src="length_v.jpg"><br>
+        <img src="length.jpg">
     </body>
 </html>

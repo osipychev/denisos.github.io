@@ -1,22 +1,48 @@
 //------------------------------------------------------
-	
 //-- CONSTANTS & GLOBAL VARIABLES
-var n_iter = 0;
-var myGrid;
-var canvas;
-var n_dim;
-var state = [0,0];
-var n_actions = 4;
-var sim_states = {reset:0,ready:4,run:5,wait:6};
-var sim_state = sim_states.reset;
-var mouse_pos = [];
-var reward_hist = [];
-var message = [];
 
-//-- Experiment globals
-var n_episode = 0;
-var cum_reward = 0;
-var hist = ['\n'];
+//-- Canvas Parameters
+var canvas;
+var myGrid;
+var agent_list      = [];
+var n_dim;
+
+var startTime, endTime;
+
+//-- Simulation Parameters
+var sim_states      = {reset:0,ready:4,run:5,wait:6,manual:7};
+var sim_state       = sim_states.reset;
+var mouse_pos       = [];
+var message         = [];
+var t_time          = 0;
+var frame_time      = 0;
+var reward          = [];
+var reward_hist     = [];
+
+//-- Experiment Parameters
+var n_episode       = 0;
+var cum_reward      = 0;
+var hist            = [];
+
+var row_queue       = [];
+var row_complete     = [];
+
+//-- MDP Parameters
+var policy          = [];
+var value           = [];
+var qvalue          = [];
+var transition      = [];
+var term_map        = [];
+var sym_map         = [];
+var n_actions       = 4;
+var growth_step     = 100;
+var reward_grown    = 700;
+
+//Environment Parameters
+var actions         = {idle:1, kill:2, left:3, right:4};
+var n_agents        = 5;
+var state           = new Array(5);
+var statecharge     = [0, 0];
 
 //MAIN
 function main() {
@@ -29,31 +55,19 @@ function main() {
 	    console.log(' Got < canvas > element ');
     }
     
-//    canvas.addEventListener("mousedown", function(evt){
-//        var rect = canvas.getBoundingClientRect();
-//        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
-//        selection(mouse_pos);
-//        console.log("Mouse click at:", mouse_pos);
-//    }, false);
-    
-    document.onkeydown = handleKeyDown;
-    document.onkeyup = handleKeyUp;
-    
+    canvas.addEventListener("mousedown", function(evt){
+        var rect = canvas.getBoundingClientRect();
+        mouse_pos = [evt.clientX - rect.left, evt.clientY - rect.top];
+        selection(mouse_pos, myGrid.n_dim);
+        console.log("Mouse click at:" + mouse_pos);
+    }, false);
+
     generate();
     animate();
 }
 
 function animate(){
 	setInterval(update, 10);
-}
-
-function save_to_file(){
-    var hiddenElement = document.createElement('a');
-
-    hiddenElement.href = 'data:attachment/text,' + encodeURI(hist);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = 'data.txt';
-    hiddenElement.click();
 }
 
 //CONTROL
@@ -68,132 +82,100 @@ function sim_stop(){
 
 //SIMULATION
 function generate(){
-    n_dim = document.getElementById("n_dim").value;
-    myGrid = new UGrid2D([-1.,-1.],[1.,1.],n_dim);
-    mdp_init(n_dim);
-    reward_hist = [];
-    hist = ['\n'];
-    n_episode = 0;
+    sim_state = sim_states.reset;
 }
 
-function singleUpdate(){
-    sim_state = sim_states.run;
-    update();
-    sim_state = sim_states.ready;
+function manual(){
+    sim_state = sim_states.manual;
 }
 
 function update(){
-    
+    startTime         = new Date().getTime();
+    var n_agent_rows    = Math.floor(n_dim/n_agents);
+    //var init_row;
     if (sim_state == sim_states.reset){
-        
-        sleep(10000);
+        //sleep(10000);
         n_iter = 0;
         n_episode += 1;
         cum_reward = 0;
-        state = mdp_random_state(n_dim);
+        t_time = 0;
+        
+        n_dim = document.getElementById("n_dim").value;
+        n_agents = document.getElementById("n_agents").value;
+        myGrid = new UGrid2D([-1.,-1.],[1.,1.],n_dim);
+        mdp_init();
+        
+        agent_list = [];
+        for (var i = 0; i < n_agents; ++i){
+            //init_row = i*n_dim/n_agents;
+            //row_queue[i][0] = init_row;
+            agent_list[i] = new FarmAgent(i,[0,0],1);
+            agent_list[i].mode = agent_list[i].modes.idle;
+        }
+        update_row_queue0();
+        for (var i = 0; i < n_agents; ++i){
+            agent_list[i].updateQueue(row_queue[i]);
+            console.log(agent_list[i].queue);
+            agent_list[i].mode = agent_list[i].modes.scout;
+        }
         sim_state = sim_states.ready;
-        if (n_episode>20) message ="Reached 20 episodes. Save and proceed."
-        else message = "Episode ended. Press RUN";
+        if (n_episode>20){
+            message ="Reached 20 episodes. Save and proceed.";
+        }
+        else{
+            message = "Episode ended. Press RUN";
+        }
+        t_time = 0;
+    }
+    
+    if (sim_state == sim_states.run){
+        //update_row_queue();
+        for (var i = 0; i < n_agents; ++i){
+            agent_list[i].step(myGrid.n_dim, t_time);
+        }
+        
+        t_time = -document.getElementById("tscale").value*(endTime - startTime)/1000.0;
+        weed_grow(t_time);
+        update_row_queue(agent_list);
+        for (var i = 0; i < n_agents; ++i){
+            agent_list[i].updateQueue(row_queue[i]);
+        }
         
     }
     
-    var epsilon = document.getElementById("epsilon").value;
-    var max_iter = document.getElementById("num_iter").value
+    endTime = new Date().getTime();
     
-    if (n_iter < max_iter && (sim_state == sim_states.run) ){
-		
-        var action=-1;
-        
-        if(document.getElementById("ctrl_RL").checked){
-            if (Math.random() < epsilon){
-                action = findMaxInd(get_qvalue(state));
-                console.log("best action");
-            }
-            else{
-                action = Math.floor(Math.random() * n_actions);
-                console.log("random action");
-            }
-        }
-        else if(document.getElementById("ctrl_human").checked){
-            handleKeys();
-            if (keyEvents.active.left){
-                action = 0;
-                keyEvents.active.left = false;
-            }
-            else if (keyEvents.active.right){
-                action = 1;
-                keyEvents.active.right = false;
-            }  
-            else if (keyEvents.active.up){
-                action = 2;
-                keyEvents.active.up = false;
-            }
-            else if (keyEvents.active.down){
-                action = 3;
-                keyEvents.active.down = false;
-            } 
-        }
-
-        if (action > -1){
-            n_iter += 1;
-            console.log("Action taken:",action);
-            var prev_state = state.slice();
-            state = mdp_step(state,action,n_dim);
-            var rwrd = reward[state[0]][state[1]];
-            update_qvalue(prev_state,state,action,rwrd);
-        
-            cum_reward += rwrd;
-            if (term_map[state[0]][state[1]] == true){
-                sim_state = sim_states.reset;
-                hist += 'Num iter: ' + n_iter + ' Cum reward: ' + cum_reward + '\n';
-                reward_hist.push({x:n_episode,y:cum_reward});
-                console.log(reward_hist);
-                plot_result(reward_hist);
-                if (rwrd>0) message = 'You found the goal';
-                else message = 'You found the pit';
-            }
-        }
-    }
-       // DRAW AND UPDATE
+    // DRAW AND UPDATE
     draw();
 }
 
-function plot_result(reward_hist){
-    Highcharts.chart('container', {
-                     chart: {type: 'scatter',zoomType: 'xy'},
-                     title: {text: 'Cumulative Reward Vs. Episode'},
-                     xAxis: {title: {enabled: true,text: 'Episode'},
-                        startOnTick: true,endOnTick: true,showLastLabel: true},
-                     yAxis: {title: {text: 'Cumulative Reward'}},
-                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 50,y: 25,floating: true,
-                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',borderWidth: 1},
-                     plotOptions: {scatter: {marker: {radius: 5,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},
-                     states: {hover: {marker: {enabled: false}}},
-                     tooltip: {headerFormat: '<b>{series.name}</b><br>',pointFormat: 'Episode: {point.x}, Reward: {point.y}'}}},
-                     series: [{lineWidth:2,name: 'Reward',color: 'rgba(223, 83, 83, .5)',data: reward_hist}]});
-}
+// function plot_result(reward_hist){
+//    Highcharts.chart('container', {
+//                     chart: {type: 'scatter',zoomType: 'xy'},
+//                     title: {text: 'Cumulative Reward Vs. Episode'},
+//                     xAxis: {title: {enabled: true,text: 'Episode'},
+//                        startOnTick: true,endOnTick: true,showLastLabel: true},
+//                     yAxis: {title: {text: 'Cumulative Reward'}},
+//                     legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 50,y: 25,floating: true,
+//                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',borderWidth: 1},
+//                     plotOptions: {scatter: {marker: {radius: 5,states: {hover: {enabled: true,lineColor: 'rgb(100,100,100)'}}},
+//                     states: {hover: {marker: {enabled: false}}},
+//                     tooltip: {headerFormat: '<b>{series.name}</b><br>',pointFormat: 'Episode: {point.x}, Reward: {point.y}'}}},
+//                     series: [{lineWidth:2,name: 'Reward',color: 'rgba(223, 83, 83, .5)',data: reward_hist}]});
+// }
 
 function draw(){
     // Get the rendering context for 2DCG <- (2)
     var ctx = canvas.getContext('2d');
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (document.getElementById("show_goal").checked) myGrid.show_colors(canvas,reward,n_dim);
+    if (document.getElementById("show_weed").checked)
+        myGrid.show_colors(canvas,reward);
     
-    myGrid.show_state(canvas,state,n_dim);
+    myGrid.show_state(canvas,agent_list);
     myGrid.draw_grid(canvas);
-    
-    if (document.getElementById("show_R").checked)
-        myGrid.show_values(canvas,reward,n_dim);
-    else if (document.getElementById("show_Q").checked)
-        myGrid.show_qvalues(canvas,qvalue,n_dim,n_actions);
-    else if (document.getElementById("show_Pi").checked)
-        myGrid.show_policy(canvas,qvalue,n_dim,n_actions);
-    myGrid.print_string(canvas,state,'reward: '+cum_reward,n_dim);
     myGrid.print_message(canvas,message);
-    
-    if (document.getElementById("show_labels").checked)
-        myGrid.show_symbols(canvas,sym_map,n_dim);
+
 }
 
 function sleep(milliseconds) {
@@ -204,3 +186,4 @@ function sleep(milliseconds) {
     }
   }
 }
+//------------------------------------------------------
