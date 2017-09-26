@@ -1,3 +1,4 @@
+//--------------------------------------------------------
 // Create keyboard control variables
 var keyEvents = {};
 
@@ -18,7 +19,6 @@ height = 600;
 
 // MOUSE CONTROL
 function selection(xy_pos,n_dim){
-    
     var deltaX = width / n_dim;
     var deltaY = height / n_dim;
 
@@ -26,11 +26,9 @@ function selection(xy_pos,n_dim){
     var yi = Math.floor(xy_pos[1]/deltaY);
     
     if (sim_state == sim_states.manual){
-     
         if (keyEvents.status == keyEvents.selection.agent){
             keyEvents.agSel = -1;
             message = "select an agent";
-
             for (var i = 0; i < n_agents; ++i){
                 var xy = agent_list[i].getState();
                 if (xy[0] <= xi+1 &&
@@ -115,3 +113,4 @@ function handleKeys() {
     }
     else keyEvents.released.down = true;
 }
+//--------------------------------------------------------

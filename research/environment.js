@@ -1,9 +1,19 @@
-/* 
+//--------------------------------------------------------
+/*
 / FARM ENVIRONMENT
 /
 */
 
-//--------------------------------------------------------
+//Environment Parameters
+var actions         = {idle:1, kill:2, left:3, right:4};
+var state           = new Array(5);
+var statecharge     = [0, 0];
+var update_count    = 0;
+var T_KILL          = 60; // sec to kill one weed
+var T_CHARGE        = 60; // sec to full charge
+var n_agents;
+var n_agent_rows;
+
 // A Simple 2D Grid Class
 var UGrid2D = function (min_corner, max_corner, n_dim) {
     this.min_corner = min_corner;
@@ -12,6 +22,16 @@ var UGrid2D = function (min_corner, max_corner, n_dim) {
     console.log('Environment instance created');
 }
 
+
+
+function totalReward(r_matr){
+    var total = 0;
+    for (var i = 0; i < n_dim; i++){
+         for (var j = 0; j < n_dim; j++)
+            total += r_matr[i][j];
+    }
+    return total;
+}
 // Method: draw_grid
 // Draw the grid lines
 
@@ -42,8 +62,6 @@ UGrid2D.prototype.draw_grid = function (canvas) {
         ctx.stroke();
     }
 }
-
-
 
 UGrid2D.prototype.print_message = function (canvas, string) {
     var ctx = canvas.getContext('2d');
@@ -127,13 +145,15 @@ UGrid2D.prototype.show_colors = function (canvas, matrix) {
             ctx.textBaseline = "middle";
             
             var val = matrix[i][j];
-            var color;
-            if (val > 0) color = 'rgb(100,255,100)';
-            else color = 'rgb(255,255,255)';
+            var color = 'rgb(255,255,255)';
+            if (val > 0)
+                color = 'rgb(100,255,100)';
+            if (val > MAX_WEED) 
+                color = 'rgb(255,150,100)';
             
             ctx.fillStyle=color;
             ctx.fillRect(i*deltaX,j*deltaY,deltaX,deltaY);
         }
     }
 }
-//End UGrid2D--------------------------------------------
+//--------------------------------------------------------
