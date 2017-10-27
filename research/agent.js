@@ -2,6 +2,9 @@
 var MAX_SPEED = 2; //miles per hour
 var MAX_WEED = 5; // max size inches that can kill
 var T_CHARGE = 60*60; // time to full charge in sec
+var T_KILL = 60; // sec to kill one weed
+var CHARGING_DOCK = [0,0];
+
 
 //------------------------------------------------------
 // AGENT CLASS
@@ -10,7 +13,7 @@ var T_CHARGE = 60*60; // time to full charge in sec
 var FarmAgent = function (id, init_loc) {
     
     this.directions = {north:0, south:1};
-    this.modes = {scout:0, idle:1, kill:2, inactive:-1, charging:3, going:4};
+    this.modes = {scout:0, idle:1, kill:2, inactive:-1, charging:3, moving:4};
     
     this.location = init_loc.slice(); // in feet
     this.speed = MAX_SPEED * 1.46667; // in feet per second
@@ -31,6 +34,7 @@ var FarmAgent = function (id, init_loc) {
 // method - update state of agent based on the current state
 FarmAgent.prototype.step = function (n_dim, t_step) {
     var new_state, new_location;
+    
     switch(this.mode){
         case this.modes.scout:
             // move in a row
@@ -64,34 +68,32 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
             break;
             
         case this.modes.kill:
-            if( this.timer > T_KILL){
-                this.mode = this.modes.scout;
+            if( this.timer < T_KILL)
+                this.timer += t_step;
+            else{
                 this.timer = 0;
+                this.mode = this.modes.scout;
                 var s = this.c2d(this.location);
                 this.reward += reward[s[0]][s[1]];
                 reward[s[0]][s[1]] = 0;
-                console.log('bot#' + this.id + '.Finished killing.');
+                console.log('bot#' + this.id + '.Finished killing at:' + s);
             }
-            else{
-                this.timer += t_step;
-            }
-            this.battery -= 0.1*t_step;
+            this.battery -= 0.1*t_step; // discharge associated with killing
             break;
             
         case this.modes.charging:
-            if (this.battery >= 100){
+            if (this.battery < 100)
+                this.battery += t_step * 100.0/T_CHARGE; // rate of charge
+            else{
                 this.mode = this.modes.idle;
                 console.log('bot#' + this.id + '.Battery full.');
-            }
-            else{
-                this.battery += 100.0*t_step/T_CHARGE;
             }
             break;
             
         case this.modes.inactive:
             var s = this.c2d(this.location);
-            if (s[0] != 0 || s[1] != 0){
-                this.goTo([0,0], t_step);
+            if (s[0] != CHARGING_DOCK[0] || s[1] != CHARGING_DOCK[1]){
+                this.goTo(CHARGING_DOCK, t_step);
                 console.log('bot#' + this.id + '.Battery empty');
             }
             else{
@@ -107,7 +109,7 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
                 var s = this.c2d(this.location);
                 this.target[0] = this.queue[0];
                 this.target[1] = s[1];
-                this.mode = this.modes.going;
+                this.mode = this.modes.moving;
                 console.log('bot#' + this.id + '.Going to ' +this.target +'.');
             }
 //            else if (this.queue.length <= 1){
@@ -127,7 +129,7 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
 //            }
             break;
             
-        case this.modes.going:
+        case this.modes.moving:
             var s = this.c2d(this.location);
             if (this.target[0] > s[0]){
                 this.location[0] += this.speed * t_step;
@@ -187,7 +189,7 @@ FarmAgent.prototype.updateQueue = function (task) {
 
 FarmAgent.prototype.report = function () {
     var report_string = 'bot# ' + this.id + 
-        ' comleted row# ' + this.c2d(this.location); + 
+        ' comleted row# ' + this.c2d(this.location) + 
         '. Location: ' + this.location +
         '. Reward: ' + this.reward + 
         '. Battery: ' + this.battery;

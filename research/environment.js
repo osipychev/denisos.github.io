@@ -9,8 +9,6 @@ var actions         = {idle:1, kill:2, left:3, right:4};
 var state           = new Array(5);
 var statecharge     = [0, 0];
 var update_count    = 0;
-var T_KILL          = 60; // sec to kill one weed
-var T_CHARGE        = 60; // sec to full charge
 var n_agents;
 var n_agent_rows;
 
@@ -146,8 +144,11 @@ UGrid2D.prototype.show_colors = function (canvas, matrix) {
             
             var val = matrix[i][j];
             var color = 'rgb(255,255,255)';
-            if (val > 0)
-                color = 'rgb(100,255,100)';
+            if (val > 0){
+                var r = Math.floor(100 + (255 - 100)/(MAX_WEED - val) * val);
+                var g = Math.floor(255 + (150 - 255)/(MAX_WEED - val) * val);
+                color = 'rgb(' + r + ',' + g + ',100)';
+            }
             if (val > MAX_WEED) 
                 color = 'rgb(255,150,100)';
             
