@@ -3,13 +3,9 @@
 // uses the following global constants
 // agent_speed
 // MAX_WEED
-//
 
 // A farm swarm robot class init
 var FarmAgent = function (id) {
-    
-    MAX_SPEED = agent_speed// for Wyatt code.
-    
     this.id         = id;    
     this.directions = {north:0, south:1};
     this.modes      = {scout:0, idle:1, kill:2, inactive:-1, charging:3, going:4};
@@ -18,7 +14,7 @@ var FarmAgent = function (id) {
     this.location   = [0,0]; //[2.459*(n_dim-1)/(n_agents-1)*id,0]; // in feet
     this.d_location = [0,0] // discrete representation of location
     this.direction  = this.directions.north;
-    this.speed      = MAX_SPEED; // in feet per second    
+    this.speed      = agent_speed; // in feet per second
     this.battery    = 100;
     this.reward     = 0;
     this.timer      = 0; // some timer for internal agent use (like battery charge and how long it kills the weed)
@@ -76,6 +72,7 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
                 this.timer = 0;
                 this.reward += reward[this.d_location[0]][this.d_location[1]];
                 reward[this.d_location[0]][this.d_location[1]] = 0;
+                show_reward[this.d_location[0]][this.d_location[1]] = 0;
                 weed_density[this.d_location[0]][this.d_location[1]] = 0;
                 weed_height[this.d_location[0]][this.d_location[1]] = 0;
                 //console.log('bot#' + this.id + '.Finished killing.');
@@ -123,21 +120,12 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
                 //console.log('bot#' + this.id + '.Going to ' +this.target +'.');
             }
             else if(this.queue.length == 0){
-                //if(RP_on_not_off){
-                //   update_agent_reward_and_queue_and_qvalue();
-                // }
-                //else{
-                //    update_row_queue();
-                //}
-                // var occupied = 0;
-                // for (var i = 0; i < n_agents; ++i){
-                //     if((i != this.id) && (agent_list[i].queue[0] == row_queue[this.id][0])){
-                //         var occupied = 1;
-                //     }
-                //}
                 if (row_queue[this.id].length > 0){
+                    row_occupied[this.d_location] = 0;
                     this.updateQueue(row_queue[this.id]);
-                    console.log(this.queue);
+                    row_occupied[row_queue[this.id][0]] = 1;
+                    show_row[row_queue[this.id][0]]     = 1;
+                    //console.log(this.queue);
                     explored_row_total += this.reward;
                     number_rows_explored += 1;
                     average_row_reward = explored_row_total/number_rows_explored;
@@ -150,9 +138,13 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
             var s = this.c2d(this.location);
             if (this.target[0] > s[0]){
                 this.location[0] += this.speed * t_step;
+                s = this.c2d(this.location);
+                if (this.target[0] < s[0]) this.location = this.d2c(this.target);
             }
             else if (this.target[0] < s[0]){
                 this.location[0] -= this.speed * t_step;
+                s = this.c2d(this.location);
+                if (this.target[0] > s[0]) this.location = this.d2c(this.target);
             }
             else if (this.target[0] == s[0]){
                 this.mode = this.modes.scout;
@@ -168,10 +160,18 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
     if (this.battery<0 && this.mode != this.modes.charging){
         this.mode = this.modes.inactive;
     }
+    
+    if (this.mode == this.modes.idle){
+        agent_busy[this.id] = 0;
+    }
+    else{
+        agent_busy[this.id] = 1;
+    }
+        
     var s = this.c2d(this.location);
     if(PEI_on_not_off){
-        for(var i = Math.max(0,s[0]-observation_radius); i < Math.min(n_dim, s[0] + observation_radius); ++i){
-            for(var j = Math.max(0,s[1]-observation_radius); j < Math.min(n_dim, s[1]+observation_radius); ++j){
+        for(var i = Math.max(0,s[0]-observation_radius); i < Math.min(n_dim, s[0] + observation_radius + 1); ++i){
+            for(var j = Math.max(0,s[1]-observation_radius); j < Math.min(n_dim, s[1] + observation_radius + 1); ++j){
                 if(reward[i][j] > 0){
                     if(show_reward[i][j] != 1){
                         show_reward[i][j] = 1;
@@ -180,7 +180,7 @@ FarmAgent.prototype.step = function (n_dim, t_step) {
             }
         }
         if ((s[1] <= 0 && this.direction == this.directions.north) || (s[1] >= n_dim-1 && this.direction == this.directions.south)){
-            for(var i = Math.max(0,s[0]-observation_radius); i < Math.min(n_dim, s[0]+observation_radius); ++i){
+            for(var i = Math.max(0,s[0]-observation_radius); i <= Math.min(n_dim, s[0]+observation_radius); ++i){
                 show_row[i] = 1;
             }
         }

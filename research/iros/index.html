@@ -9,14 +9,15 @@ Developed by: 	  Denis Osipychev
                   Department of Computational Science and Engineering
                   University of Illinois at Urbana Champaign
 -->
+
     <head>
         <meta charset="utf-8">
-        <title>Weed World Simulation</title>
+        <title>Weedworld Simulation</title>
         <script src="farm.js"></script>
         <script src="main.js"></script>
         <script src="mdp.js"></script>
         <script src="highcharts.js"></script>
-        <script src="exporting.js"></script>
+        <!--<script src="exporting.js"></script>-->
         <script src="agent.js"></script>
         <script src="weeds.js"></script>
     </head>
@@ -26,54 +27,30 @@ Developed by: 	  Denis Osipychev
                 <table>
                     <tr><td width="250">
                         <small>
-                        <b>Weed World parameters:</b><br>
-                        Rows per acre: <input type="text" id="n_dim" value="85" size="2">
-                        <!--N agents: <input type="text" id="n_agents" value="5" size="1"><br>-->
-                        <br>
-                        
-                        
-                        <!--<input type="radio" name="func1" id="show_R"> R-->
-                        <!--<input type="radio" name="func1" id="show_V"> V-->
-                        <!--<input type="radio" name="func1" id="show_Q"> Q-->
-                        <!--<input type="radio" name="func1" id="show_Pi"> &pi;-->
-                        <!--<br> -->
-                        
-                        <!-- <b>Show:</b>-->
-                        <!--<input type="checkbox" name="func3" id="show_moves"> T-->
-                        <!--<input type="checkbox" name="func3" id="show_obst"> O-->
-                        <!--<input type="radio" name="func1" id="show_labels"> L-->
-                        <!--<input type="radio" name="func1" id="none"> none-->
-
-                        <!--
-                        <b>MDP parameters:</b><br>
-                        Number of iterations <input type="text" id="num_iter" value="1000" size="5"><br>
-                        &alpha;<input type="text" id="alpha" value="0.9" size="4">&nbsp;
-                        &gamma;<input type="text" id="gamma" value="0.9" size="4">&nbsp;
-                        &epsilon;<input type="text" id="epsilon" value="0.95" size="4">
-                        <br>
-                        -->
+                        <input type="hidden" id="n_dim" value="85" size="3">
+                                                
                         <b>Simulation Parameters:</b><br>
-                        Seedbank: <input type="text" id="seedbank" value="20" size="2"><br>
-                        Days allowance: <input type="text" id="days_allowance" value="1.0" size="2"><br>
+                        Number of Agents: <input type="text" id="n_agents" value="10.0" size="3"><br>
+                        Agent Speed (fps): <input type="text" id="agent_speed" value="1.0" size="3"><br>
+                        Observation Radius: <input type="text" id="observation_radius" value="1.0" size="3"><br>
                             
-                        <b> Initial Weed Distribution: </b> <br>
+                        <b> Weed Distribution: </b> <br>
                         <input type="radio" name="func5" id="uniform"> Uniform
-                        <input type="radio" name="func5" id="binomial" checked> Binomial
-                        <br>
+                        <input type="radio" name="func5" id="binomial" checked> Binomial<br>
+                        Seedbank per 6 sqft: <input type="text" id="seedbank" value="20" size="3"><br>
+                        Days Allowance: <input type="text" id="days_allowance" value="1.0" size="3"><br>
                         
                         <b> Simulation Speed: </b> <br>
                         <div class="range">
-                            T mult: <small>1x
-                            <input type="range" id="tscale" min="1" max="500" value=1>
-                            500x</small>
+                        <small>1x<input type="range" id="tscale" min="1" max="500" value=500>500x</small>
                         </div>
                             
-                        <b>Simulation OPptions:</b><br>
+                        <b>Simulation Options:</b><br>
                         <input type="checkbox" name="func1" id="show_visual"checked> Update Grid
                         <input type="checkbox" name="func2" id="show_weed"checked> Show Weeds
                         <br>
                         <input type="checkbox" name="func3" id="show_graph"checked> Show Graph
-                        <input type="checkbox" name="func4" id="MC"> Monte Carlo
+                        <input type="checkbox" name="func4" id="MC"checked> Monte Carlo
                         <br>
                             
                         </small>
@@ -84,16 +61,11 @@ Developed by: 	  Denis Osipychev
             </form>
             
             <button onclick="generate()">Reset</button>
-            <!-- &#8594;-->
-            <!--<button onclick="singleUpdate()">Update</button>-->
-            <!-- &#8594;-->
             <button onclick="sim_run()">Run</button>
-            <!-- &#8594;-->
             <button onclick="sim_stop()">Stop</button>
-            <!-- &#8594;-->
             <button onclick="save_to_file()">Save</button>
         </fieldset>
-        <canvas id ="example" width ="600" height ="600" style="border:5px solid #FFFFFF;">
+        <canvas id ="example" width ="600" height ="600" style="border:1px solid #AAAAAA;">
 			Please use a browser that supports "canvas"
 		</canvas ><img src="length_v.jpg"><br>
         <img src="length.jpg">
