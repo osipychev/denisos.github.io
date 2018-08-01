@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Denis Os - chess engine comparison</title>
+    <link rel="stylesheet" href="js/chessboard-0.3.0.css">
+</head>
+<body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/chessboard-0.3.0.js"></script>
+<script src="js/chess.js"></script>
+<div id="board" style="width: 400px"></div>
+    
+<div class="info">
+    <select id="chess_ai_1">
+        <option value="rand">Random</option>
+        <option value="minmax">MinMax</option>
+        <option value="abeta">AlphaBeta</option>
+    </select>
+    vs
+    <select id="chess_ai_2">
+        <option value="rand">Random</option>
+        <option value="minmax">MinMax</option>
+        <option value="abeta">AlphaBeta</option>
+    </select>
+    
+    <button onclick="start()">Start</button>
+    <button onclick="reset()">Reset</button>  <br>
+    History:
+    <div id="move-history" class="move-history">
+    </div>
+</div>
+    
+<script src="script.js"></script>
+    
+</body>
+</html>
