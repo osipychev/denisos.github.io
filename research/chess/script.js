@@ -31,7 +31,7 @@ var abetaRoot =function(game) {
   var depth = 3;
   var maximizing = true;
   var bestMove, bestValue = -1000;
-  var moves = game.ugly_moves();
+  var moves = shuffleArray(game.ugly_moves());
   var evalSide = game.turn();
 
   //timers for performance evaluation
@@ -54,11 +54,11 @@ var abetaRoot =function(game) {
 };
 
 var abeta = function (depth, game, evalSide, alpha, beta, maximizing) {
-  if (depth === 0) {
+  if (depth === 0 || game.game_over()) {
       return (evalSide ==='w') ? evaluateBoard(game.board()) : -evaluateBoard(game.board());
   }
 
-    var moves = game.ugly_moves();
+    var moves = shuffleArray(game.ugly_moves());
 
     if (maximizing) {
         var bestValue = -1000;
@@ -95,7 +95,7 @@ var minimaxRoot = function (game) {
     var depth = 2;
     var maximizing = true;
     var bestMove, bestValue = -1000;
-    var moves = game.ugly_moves();
+    var moves = shuffleArray(game.ugly_moves());
     var evalSide = game.turn();
 
     //timers for performance evaluation
@@ -123,7 +123,7 @@ var minimax = function (depth, game, evalSide, maximizing) {
         return (evalSide==='w') ? evaluateBoard(game.board()) : -evaluateBoard(game.board());
     }
 
-    var moves = game.ugly_moves();
+    var moves = shuffleArray(game.ugly_moves());
 
     if (maximizing) {
         var bestValue = -1000;
@@ -149,7 +149,7 @@ var minimax = function (depth, game, evalSide, maximizing) {
 
 var singleMove = function (game) {
 
-    var moves = game.ugly_moves();
+    var moves = shuffleArray(game.ugly_moves());
     var bestMove, bestValue = -1000;
 
     for (var i = 0; i < moves.length; i++) {
@@ -208,6 +208,17 @@ var randomMove = function(game) {
     var possibleMoves = game.ugly_moves();
     var randomIndex = Math.floor(Math.random() * possibleMoves.length);
     return possibleMoves[randomIndex];
+}
+
+var shuffleArray = function(arr){
+  var n = arr.length;
+  var tempArr = [];
+  for ( var i = 0; i < n-1; i++ ) {
+    tempArr.push(arr.splice(Math.floor(Math.random()*arr.length),1)[0]);
+  }
+  // Push the remaining item onto tempArr
+  tempArr.push(arr[0]);
+  return tempArr;
 }
 
 /* Make a step switching AIs turn by turn */
