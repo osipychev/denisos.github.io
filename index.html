@@ -4,11 +4,19 @@
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-148176927-1"></script>
 		<script>
-  		window.dataLayer = window.dataLayer || [];
-  		function gtag(){dataLayer.push(arguments);}
-  		gtag('js', new Date());
-  		gtag('config', 'UA-148176927-1');
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-148176927-1');
 		</script>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	    <script>
+	    $(function(){
+	      $("#includedContent").load("assets/deep_chess_1.html");
+	    });
+	    </script>
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,7 +73,7 @@
 		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
 		<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
 			<div class="text-center">
-				<div class="author-img" style="background-image: url(images/denis.png);"></div>
+				<div class="author-img" style="background-image: url(images/denis2.png);"></div>
 				<h1 id="colorlib-logo"><a href="index.html">Denis Osipychev</a></h1>
 				<span class="position">AI Developer, Software Engineer</span>
 			</div>
@@ -114,8 +122,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					   			<div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
 					   				<div class="slider-text-inner js-fullheight">
 					   					<div class="desc">
-						   					<h1>Hi! <br>I'm Denis</h1>
-						   					<h2>Currently, I am an AI software engineer at Boeing.</h2>
+						   					<h1>Hi! I'm Denis</h1>
+						   					<h2>Currently, I am an AI developer at Boeing Research & Technology.<br>
+														Let me tell you, I love this job!</h2>
 												<p><a href="denis_osipychev_cv.pdf" class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
 											</div>
 					   				</div>
@@ -123,7 +132,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					   		</div>
 				   		</div>
 				   	</li>
-                    <li style="background-image: url(images/img_bg_denis_02.jpg);">
+						<li style="background-image: url(images/img_bg_denis_07.jpg);">
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
@@ -131,25 +140,26 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					   				<div class="slider-text-inner">
 					   					<div class="desc">
 						   					<h1>AI enthusiast</h1>
-												<h2>Making artificial brains is my passion. Seeking an autonomy for robots, data systems, computer games.
-                                                </h2>
-												<p><a href="#" data-nav-section="expertise" class="btn btn-primary btn-learn">More <i class="icon-briefcase3"></i></a></p>
+												<h2>Making artificial brains is my passion.
+														I am bringing autonomy to autonomous cars, aerial vehicles, robots, data systems, and computer games.</h2>
+												<p><a href="#" data-nav-section="experience" class="btn btn-primary btn-learn">More <i class="icon-eye2"></i></a></p>
 											</div>
 					   				</div>
 					   			</div>
 					   		</div>
 				   		</div>
 				   	</li>
-				   	<li style="background-image: url(images/img_bg_denis_03.jpg);">
+						<li style="background-image: url(images/img_bg_denis_02.jpg);">
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
 					   			<div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
 					   				<div class="slider-text-inner">
 					   					<div class="desc">
-						   					<h1>RL expert</h1>
-												<h2>Reinforcement Learning (RL) is the major topic of my PhD research at University of Illinois at Urbana-Champaign (UIUC).</h2>
-												<p><a class="btn btn-primary btn-learn">View Research <i class="icon-briefcase3"></i></a></p>
+						   					<h1>RL/ML expertise</h1>
+												<h2>Reinforcement Learning (RL) is the main area of my interest.
+														This is the direction of my PhD dissertation at University of Illinois at Urbana-Champaign (UIUC).</h2>
+												<p><a href="#" data-nav-section="research" class="btn btn-primary btn-learn">More <i class="icon-eye2"></i></a></p>
 											</div>
 					   				</div>
 					   			</div>
@@ -168,8 +178,20 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="col-md-12">
 									<div class="about-desc">
 										<span class="heading-meta">About Me</span>
-										<h2 class="colorlib-heading">Who Am I?</h2>
-										<p><strong>Hi I'm Denis Osipychev.</strong> Currently, I am AI Software Engineer at Boeing Research and Technology (BR&amp;T) and a Ph.D. candidate at the University of Illinois at Urbana-Champaign. I received my M.S. degree in Electrical Engineering from Oklahoma State University in 2015. My research interests are in Artificial Intelligence, Reinforcement Learning, Deep Learning and Human-Like Intelligence.</p>
+										<h2 class="colorlib-heading">Who Is That Guy?</h2>
+										<p><strong>Hi, I'm Denis Osipychev.</strong>
+												I am an enthusiast in Artificial Intelligence (AI), Reinforcement Learning (RL), and
+												Machine Learning (ML). I develop complex systems that can solve non-trivial tasks, adapt to changes
+												in the enviroment, make sequential decisions, and even compete with a human. Does this sound exciting?
+												Believe me, it truly does.
+										</p><p>
+												Currently, I am an AI Software Engineer at Boeing Research and Technology (BR&amp;T) located in Huntsville, Alabama.
+											  Beside my main job, I am also a Ph.D. candidate at the University of Illinois at Urbana-Champaign. My research is in multi-agent
+												decision making, collaborative deep learning, and optimization.
+											</p><p>
+												I've received my M.S. degree in Electrical Engineering from Oklahoma State University where I worked on autonomous driving,
+												behavior recognition, and human-in-the-loop systems.
+											</p>
 									</div>
 								</div>
 							</div>
@@ -195,18 +217,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="col-md-3 animate-box" data-animate-effect="fadeInBottom">
 									<div class="services color-4">
 										<span class="icon2"><i class="icon-phone3"></i></span>
-										<h3>Application</h3>
+										<h3>Autonomy</h3>
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<!--div class="row">
 								<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
 									<div class="hire">
 										<h2>I am happy to know you <br>that 300+ projects done sucessfully!</h2>
 										<a href="#" class="btn-hire">Hire me</a>
 									</div>
 								</div>
-							</div>
+							</div-->
 						</div>
 					</div>
 				</div>
@@ -421,12 +443,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 					               <div class="timeline-label">
 					                  <h2><a href="#">AI Software Engineer at Boeing</a> <span>2018-Now</span></h2>
-					                  <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+					                  <p>
+															Design, develoment, and integration of complex full-scale autonomous systems.
+															Developing optimization algorithms, path-planning, visual perception, learning-based components.
+															Contracted research in autonomy, ML, RL, and AI.
+														</p>
 					               </div>
 					            </div>
 					         </article>
-
-
 					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-2">
@@ -434,7 +458,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					               </div>
 					               <div class="timeline-label">
 					               	<h2>Research Assistant at <a href="https://csl.illinois.edu">Coordinated Science Lab (CSL)</a> <span>2016-2018</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+					                  <p>
+															Contracted research in RL for agent cooperation in multi-agent competitive environment.
+															Optimization and scheduling algorithms for agricultural robots, robotic weeding, phenotyping and distributed sensing.
+														</p>
 					               </div>
 					            </div>
 					         </article>
@@ -446,7 +473,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					               </div>
 					               <div class="timeline-label">
 					               	<h2>Graduate Research Assistant at Advanced Technology Research Center (ATRC)<a href="#"></a> <span>2014-2016</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+					                  <p>Research in autonomous driving. Human activity recogninition. Model-based optimization using a human behavior model.</p>
 					               </div>
 					            </div>
 					         </article>
@@ -496,14 +523,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									    </div>
 									    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 									         <div class="panel-body">
-									            <div class="row">
-										      		<div class="col-md-6">
-										      			<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
-										      		</div>
-										      		<div class="col-md-6">
-										      			<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-										      		</div>
-										      	</div>
+														 <div id="includedContent">
+															 </div>
 									         </div>
 									    </div>
 									</div>
@@ -691,7 +712,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
 							<span class="heading-meta">Read</span>
 							<h2 class="colorlib-heading">Recent Blog</h2>
-						</div>
+							<div id="includedContent"></div>
+  					</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4 col-sm-6 animate-box" data-animate-effect="fadeInLeft">
