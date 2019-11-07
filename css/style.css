@@ -502,6 +502,13 @@ body.offcanvas {
   margin-top: 5px;
   border: 1px solid #e6e6e6 !important; }
 
+.panel-body-left {
+    overflow: scroll;
+    padding: 1.5em;
+    margin-top: 5px;
+    border: 1px solid #e6e6e6 !important;
+  }
+
 .timeline-centered {
   position: relative;
   margin-bottom: 30px; }
