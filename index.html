@@ -513,6 +513,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 									<div class="panel panel-default">
+									    <div class="panel-heading" role="tab" id="headingTwo">
+									        <h4 class="panel-title">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+																Simple generative adversarial network (GAN) on MNIST dataset
+									            </a>
+									        </h4>
+									    </div>
+									    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									         <div class="panel-body-left" draggable="true" >
+														 <div id="mnist_gan_demo">
+															 </div>
+									         </div>
+									    </div>
+									</div>
+									
+									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingOne">
 									        <h4 class="panel-title">
 									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -794,7 +810,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script>
 		$(function(){
 			$("#deep_chess_1").load("assets/keras_chess.html");
-			//$("#deep_chess_2").load("assets/deep_chess_2.html");
+			$("#mnist_gan_demo").load("assets/mnist_gan_demo.html");
 		});
 	</script>
 
