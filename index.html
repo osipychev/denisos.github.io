@@ -513,14 +513,30 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 									<div class="panel panel-default">
-									    <div class="panel-heading" role="tab" id="headingTwo">
+									    <div class="panel-heading" role="tab" id="heading3">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+																Advanced generative adversarial network (GAN) on CIFAR dataset
+									            </a>
+									        </h4>
+									    </div>
+									    <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+									         <div class="panel-body-left" draggable="true" >
+														 <div id="cifar_gan_demo">
+															 </div>
+									         </div>
+									    </div>
+									</div>
+
+									<div class="panel panel-default">
+									    <div class="panel-heading" role="tab" id="heading2">
+									        <h4 class="panel-title">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
 																Simple generative adversarial network (GAN) on MNIST dataset
 									            </a>
 									        </h4>
 									    </div>
-									    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
 									         <div class="panel-body-left" draggable="true" >
 														 <div id="mnist_gan_demo">
 															 </div>
@@ -529,14 +545,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									</div>
 									
 									<div class="panel panel-default">
-									    <div class="panel-heading" role="tab" id="headingOne">
+									    <div class="panel-heading" role="tab" id="heading1">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
 																Simple chess engine with a deep learning model (part 1)
 									            </a>
 									        </h4>
 									    </div>
-									    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+									    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
 									         <div class="panel-body-left" draggable="true" >
 														 <div id="deep_chess_1">
 															 </div>
@@ -811,6 +827,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		$(function(){
 			$("#deep_chess_1").load("assets/keras_chess.html");
 			$("#mnist_gan_demo").load("assets/mnist_gan_demo.html");
+                        $("#cifar_gan_demo").load("assets/cifar_gan_demo.html");
 		});
 	</script>
 
