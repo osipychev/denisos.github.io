@@ -236,7 +236,8 @@ figure {
   width: 100%;
   float: left;
   margin-bottom: 10em;
-  clear: both; }
+  clear: both;
+  text-shadow: 1px 1px #ffffff; }
   #colorlib-hero .flexslider {
     border: none;
     z-index: 1;
@@ -247,11 +248,11 @@ figure {
       #colorlib-hero .flexslider .slides li {
         background-repeat: no-repeat;
         background-size: cover;
-        background-position: bottom center;
+        background-position: bottom right;
         min-height: 400px;
         position: relative; }
     #colorlib-hero .flexslider .flex-control-nav {
-      bottom: 20px;
+      top: 20px;
       z-index: 1000;
       left: 20px;
       float: left;
