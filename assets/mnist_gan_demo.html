@@ -13328,7 +13328,7 @@ Batch data distribution:  tensor(-1.) tensor(1.) tensor(-0.7419)
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Create-a-Generator">Create a Generator<a class="anchor-link" href="#Create-a-Generator">&#182;</a></h3><p>The generator network will be also replicating the architecture proposed in the paper. It follows the discriminator network architecture but inversed (upside down). The generator will create a relatively large output given a small vector in latent-space <b>z</b>. The latent space should be large enough to handle the variety of classes.</p>
-<p>The generator has been found to perform the best with $tanh$ for the generator output, which scales the output to be between -1 and 1 (instead of 0 and 1 for $sigmoid$).</p>
+    <p>The generator has been found to perform the best with <b>tanh</b> for the generator output, which scales the output to be between -1 and 1 (instead of 0 and 1 for <b>sigmoid</b>b>).</p>
 
 </div>
 </div>
