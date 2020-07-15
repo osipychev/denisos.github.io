@@ -367,18 +367,33 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									         </div>
 									    </div>
 									</div>
-									
-									<div class="panel panel-default">
-									    <div class="panel-heading" role="tab" id="heading1">
+                                    
+                                    <div class="panel panel-default">
+									    <div class="panel-heading" role="tab" id="heading1b">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
-																Simple chess engine with a deep learning model (part 1)
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1b" aria-expanded="true" aria-controls="collapse1b">
+																Simple chess engine part 2: Alpha-Beta Search
 									            </a>
 									        </h4>
 									    </div>
-									    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+									    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1b">
 									         <div class="panel-body-left" draggable="true" >
-								                <div id="deep_chess_1"> </div>
+								                <div id="chess_2"> </div>
+									         </div>
+									    </div>
+									</div>
+									
+									<div class="panel panel-default">
+									    <div class="panel-heading" role="tab" id="heading1a">
+									        <h4 class="panel-title">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1a" aria-expanded="true" aria-controls="collapse1a">
+																Simple chess engine part 1: a deep learning model
+									            </a>
+									        </h4>
+									    </div>
+									    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1a">
+									         <div class="panel-body-left" draggable="true" >
+								                <div id="chess_1"> </div>
 									         </div>
 									    </div>
 									</div>
@@ -424,7 +439,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									<i class="icon-phone"></i>
 								</div>
 								<div class="colorlib-text">
-									<p>Please, email for details</p>
+									<img src="images/phn_cptch.jpg" class="img-responsive" alt="Please, email for details">
 								</div>
 							</div>
 						</div>
@@ -461,7 +476,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
 	<script>
 		$(function(){
-			$("#deep_chess_1").load("assets/keras_chess.html");
+			$("#chess_1").load("assets/keras_chess.html");
+            $("#chess_2").load("assets/ab_search_chess.html");
 			$("#mnist_gan_demo").load("assets/mnist_gan_demo.html");
             $("#cifar_gan_demo").load("assets/cifar_gan_demo.html");
 		});
