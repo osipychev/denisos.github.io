@@ -337,6 +337,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 									<div class="panel panel-default">
+									    <div class="panel-heading" role="tab" id="heading4">
+									        <h4 class="panel-title">
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+																Boosting your Python code with C++ libraries
+									            </a>
+									        </h4>
+									    </div>
+									    <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+									         <div class="panel-body-left" draggable="true" >
+														 <div id="ctypes_demo">
+															 </div>
+									         </div>
+									    </div>
+									</div>
+									
+									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="heading3">
 									        <h4 class="panel-title">
 									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
@@ -477,9 +493,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script>
 		$(function(){
 			$("#chess_1").load("assets/keras_chess.html");
-            $("#chess_2").load("assets/ab_search_chess.html");
+            		$("#chess_2").load("assets/ab_search_chess.html");
 			$("#mnist_gan_demo").load("assets/mnist_gan_demo.html");
-            $("#cifar_gan_demo").load("assets/cifar_gan_demo.html");
+            		$("#cifar_gan_demo").load("assets/cifar_gan_demo.html");
+			$("#ctypes_demo").load("assets/ctypes_demo.html");
 		});
 	</script>
 
